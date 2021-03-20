@@ -11,8 +11,8 @@ import Parse
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let parseConfig = ParseClientConfiguration {
@@ -21,6 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     $0.server = "https://parseapi.back4app.com"
             }
             Parse.initialize(with: parseConfig)
+        
+        if PFUser.current() != nil {
+            print("User logged in..")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let feed = storyboard.instantiateViewController(withIdentifier: "FeedNavigationController")
+            self.window?.rootViewController = feed
+            self.window?.makeKeyAndVisible()
+        }
         return true
     }
 
